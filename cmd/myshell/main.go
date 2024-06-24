@@ -9,16 +9,19 @@ import (
 )
 
 func main() {
-	fmt.Fprint(os.Stdout, "$ ")
+	for {
+		fmt.Fprint(os.Stdout, "$ ")
 
-	cmd, err := bufio.NewReader(os.Stdin).ReadString('\n')
-	if err != nil {
-		log.Fatal(err)
-	}
+		cmd, err := bufio.NewReader(os.Stdin).ReadString('\n')
+		if err != nil {
+			log.Fatal(err)
+		}
 
-	cmd = strings.TrimSuffix(cmd, "\n")
-	switch cmd {
-	default:
-		fmt.Fprintln(os.Stdout, fmt.Sprintf("%s: command not found", cmd))
+		cmd = strings.TrimSuffix(cmd, "\n")
+		switch cmd {
+		default:
+			fmt.Fprintln(os.Stdout, fmt.Sprintf("%s: command not found", cmd))
+			break
+		}
 	}
 }

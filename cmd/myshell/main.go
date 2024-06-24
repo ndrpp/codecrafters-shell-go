@@ -30,6 +30,9 @@ func main() {
 		cmd, args := splitByFirstSpace(input)
 		switch cmd {
 		case "cd":
+			if args == "" || args == "~" {
+				args = os.Getenv("HOME")
+			}
 			if err := os.Chdir(args); err != nil {
 				fmt.Fprintln(os.Stdout, fmt.Sprintf("cd: %s: No such file or directory", args))
 			}

@@ -15,6 +15,7 @@ func main() {
 		"echo": true,
 		"type": true,
 		"pwd":  true,
+		"cd":   true,
 	}
 	reader := bufio.NewReader(os.Stdin)
 	for {
@@ -28,6 +29,12 @@ func main() {
 		input = strings.TrimSuffix(input, "\n")
 		cmd, args := splitByFirstSpace(input)
 		switch cmd {
+		case "cd":
+			err := os.Chdir(args)
+			if err != nil {
+				fmt.Fprintln(os.Stdout, fmt.Sprintf("cd: %s: No such file or directory", args))
+			}
+
 		case "pwd":
 			wd, err := os.Getwd()
 			if err != nil {

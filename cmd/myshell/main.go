@@ -50,7 +50,12 @@ func main() {
 			}
 
 		default:
-			fmt.Fprintln(os.Stdout, fmt.Sprintf("%s: command not found", cmd))
+			command := exec.Command(cmd, args)
+			if output, err := command.Output(); err != nil {
+				fmt.Fprintln(os.Stdout, fmt.Sprintf("%s: command not found", cmd))
+			} else {
+				fmt.Fprintln(os.Stdout, strings.TrimSpace(string(output)))
+			}
 		}
 	}
 }

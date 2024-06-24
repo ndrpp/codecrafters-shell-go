@@ -9,10 +9,11 @@ import (
 )
 
 func main() {
+	reader := bufio.NewReader(os.Stdin)
 	for {
 		fmt.Fprint(os.Stdout, "$ ")
 
-		cmd, err := bufio.NewReader(os.Stdin).ReadString('\n')
+		cmd, err := reader.ReadString('\n')
 		if err != nil {
 			log.Fatal(err)
 		}

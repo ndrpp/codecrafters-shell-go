@@ -20,6 +20,9 @@ func main() {
 
 		cmd = strings.TrimSuffix(cmd, "\n")
 		switch cmd {
+        case "exit 0":
+            os.Exit(0)
+
 		default:
 			fmt.Fprintln(os.Stdout, fmt.Sprintf("%s: command not found", cmd))
 			break

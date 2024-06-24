@@ -5,15 +5,16 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"os/exec"
 	"strings"
 )
 
 func main() {
-    hash := map[string]bool{
-        "exit": true,
-        "echo": true,
-        "type": true,
-    }
+	hash := map[string]bool{
+		"exit": true,
+		"echo": true,
+		"type": true,
+	}
 	reader := bufio.NewReader(os.Stdin)
 	for {
 		fmt.Fprint(os.Stdout, "$ ")
@@ -26,12 +27,17 @@ func main() {
 		input = strings.TrimSuffix(input, "\n")
 		cmd, args := splitByFirstSpace(input)
 		switch cmd {
-        case "type":
-            if hash[args] {
+		case "type":
+			if hash[args] {
 				fmt.Fprintln(os.Stdout, fmt.Sprintf("%s is a shell builtin", args))
-            } else {
-				fmt.Fprintln(os.Stdout, fmt.Sprintf("%s: not found", args))
-            }
+			} else {
+				path, err := exec.LookPath(args)
+				if err != nil {
+					fmt.Fprintln(os.Stdout, fmt.Sprintf("%s: not found", args))
+					break
+				}
+				fmt.Fprintln(os.Stdout, fmt.Sprintf("%s is %s", args, path))
+			}
 
 		case "echo":
 			fmt.Fprintln(os.Stdout, args)

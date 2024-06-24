@@ -14,6 +14,7 @@ func main() {
 		"exit": true,
 		"echo": true,
 		"type": true,
+		"pwd":  true,
 	}
 	reader := bufio.NewReader(os.Stdin)
 	for {
@@ -27,6 +28,14 @@ func main() {
 		input = strings.TrimSuffix(input, "\n")
 		cmd, args := splitByFirstSpace(input)
 		switch cmd {
+		case "pwd":
+			wd, err := os.Getwd()
+			if err != nil {
+				fmt.Fprintln(os.Stdout, "Error at getting working directory.")
+				break
+			}
+			fmt.Fprintln(os.Stdout, wd)
+
 		case "type":
 			if hash[args] {
 				fmt.Fprintln(os.Stdout, fmt.Sprintf("%s is a shell builtin", args))
